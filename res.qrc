@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/new/prefix1"/>
+    <qresource prefix="/">
+        <file>images/01A.png</file>
+        <file>images/02A.png</file>
+        <file>images/03A.png</file>
+        <file>images/04A.png</file>
+        <file>images/back-button.png</file>
+        <file>images/Bg.png</file>
+        <file>images/Button_PlayNow.png</file>
+        <file>images/enemy1.png</file>
+        <file>images/enemy2.png</file>
+        <file>images/enemy3.png</file>
+        <file>images/enemy4.png</file>
+        <file>images/levelbtn1.png</file>
+        <file>images/levelbtn2.png</file>
+        <file>images/levelbtn3.png</file>
+        <file>images/levelbtn4.png</file>
+        <file>images/levelbtn5.png</file>
+        <file>images/levelbtn6.png</file>
+        <file>images/levelbutton.png</file>
+        <file>images/title1.png</file>
+        <file>images/tower.png</file>
+        <file>images/Button.png</file>
+        <file>images/tower1.png</file>
+        <file>images/tower1bullet.png</file>
+        <file>images/tower1icon.png</file>
+        <file>images/base.png</file>
+        <file>config/Info.plist</file>
+        <file>config/TowersPosition.plist</file>
+        <file>config/Waves.plist</file>
+        <file>images/windowicon3.png</file>
+        <file>images/money2.png</file>
+        <file>images/base2.png</file>
+        <file>images/suobtn4.png</file>
+    </qresource>
+</RCC>
