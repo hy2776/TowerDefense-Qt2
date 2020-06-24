@@ -6,8 +6,10 @@
 #include <QPushButton>
 #include <QDebug>
 #include <QTimer>
+#include <QMediaPlayer>
 #include "chooselevelwindow.h"
 #include "mybutton.h"
+#include "audioplayer.h"
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -17,6 +19,11 @@ MainWindow::MainWindow(QWidget *parent)
     this->setFixedSize(1500,1200);
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
     ui->setupUi(this);
+
+    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/bgmusic2.mp3");
+    m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
+    m_audioPlayer->startBGM();
+
     MyButton * bin = new MyButton(":/images/Button.png");
     bin->setParent(this);
     bin->move(600,800);
@@ -37,6 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     });
 
     connect(scene,&ChooseLevelWindow::chooseBack,this,[=](){
+
         scene->hide();
         this->show();
     });
@@ -47,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+
 }
 
 void MainWindow::paintEvent(QPaintEvent *){

@@ -7,7 +7,6 @@
         <file>images/04A.png</file>
         <file>images/back-button.png</file>
         <file>images/Bg.png</file>
-        <file>images/Button_PlayNow.png</file>
         <file>images/enemy1.png</file>
         <file>images/enemy2.png</file>
         <file>images/enemy3.png</file>
@@ -20,7 +19,6 @@
         <file>images/levelbtn6.png</file>
         <file>images/levelbutton.png</file>
         <file>images/title1.png</file>
-        <file>images/tower.png</file>
         <file>images/Button.png</file>
         <file>images/tower1.png</file>
         <file>images/tower1bullet.png</file>
@@ -33,5 +31,12 @@
         <file>images/money2.png</file>
         <file>images/base2.png</file>
         <file>images/suobtn4.png</file>
+        <file>images/monster1.png</file>
+        <file>images/monster2.png</file>
+        <file>images/monster4.png</file>
+        <file>images/firebullet.png</file>
+        <file>images/icebullet.png</file>
+        <file>images/laserbullet.png</file>
+        <file>images/normalbullet.png</file>
     </qresource>
 </RCC>

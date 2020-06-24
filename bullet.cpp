@@ -1,13 +1,13 @@
 #include "bullet.h"
 #include "enemy.h"
-#include "gamewindow.h"
+#include "mainwindow.h"
 #include <QPainter>
 #include <QPropertyAnimation>
 
-const QSize Bullet::ms_fixedSize(8, 8);
+const QSize Bullet::ms_fixedSize(26, 26);
 
 Bullet::Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target,
-               GameWindow *game, const QPixmap &sprite/* = QPixmap(":/images/tower1bullet.png")*/) //加子弹图片！
+               GameWindow *game, int kind, int fire, qreal slow, const QPixmap &sprite/* = QPixmap(":/image/noramlbullet.png")*/)
     : m_startPos(startPos)
     , m_targetPos(targetPoint)
     , m_sprite(sprite)
@@ -15,18 +15,20 @@ Bullet::Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target,
     , m_target(target)
     , m_game(game)
     , m_damage(damage)
-{
-}
+    , bulletKind(kind)
+    , fire_attack(fire)
+    , slow_speed(slow)
+{}
 
-void Bullet::draw(QPainter *painter) const
-{
+
+void Bullet::draw(QPainter *painter) const{
     painter->drawPixmap(m_currentPos, m_sprite);
 }
 
-void Bullet::move()
-{
-    // 100毫秒内击中敌人
-    static const int duration = 100;
+void Bullet::move(){
+    //300毫秒内击中敌人
+    static const int duration = 300;
+    //不同子弹移动速度可以不同，后期可以将Bullet中的move也设为虚函数，在具体子类中实现（LaserBullet移动速度最快.etc）
     QPropertyAnimation *animation = new QPropertyAnimation(this, "m_currentPos");
     animation->setDuration(duration);
     animation->setStartValue(m_startPos);
@@ -36,23 +38,44 @@ void Bullet::move()
     animation->start();
 }
 
-void Bullet::hitTarget()
-{
+void Bullet::hitTarget(){
     // 这样处理的原因是:
     // 可能多个炮弹击中敌人,而其中一个将其消灭,导致敌人delete
     // 后续炮弹再攻击到的敌人就是无效内存区域
     // 因此先判断下敌人是否还有效
     if (m_game->enemyList().indexOf(m_target) != -1)
-        m_target->getDamage(m_damage);
+        m_target->getDamage(this);
     m_game->removedBullet(this);
 }
 
-void Bullet::setCurrentPos(QPoint pos)
-{
+void Bullet::setCurrentPos(QPoint pos){
     m_currentPos = pos;
 }
 
-QPoint Bullet::currentPos() const
-{
+QPoint Bullet::currentPos() const{
     return m_currentPos;
+}
+
+NormalBullet::NormalBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, const QPixmap &sprite)
+    :Bullet(startPos, targetPoint, damage, target, game)
+{
+
+}
+
+FireBullet::FireBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, int fireattack, const QPixmap &sprite)
+    :Bullet(startPos, targetPoint, damage, target, game, kind, fireattack, 1, sprite)
+{
+
+}
+
+IceBullet::IceBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, qreal slow, const QPixmap &sprite)
+    :Bullet(startPos, targetPoint, damage, target, game, kind, 0, slow, sprite)
+{
+
+}
+
+LaserBullet::LaserBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind,const QPixmap &sprite)
+    :Bullet(startPos, targetPoint, damage, target, game, kind, 0, 1, sprite)
+{
+
 }

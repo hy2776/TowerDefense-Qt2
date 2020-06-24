@@ -5,6 +5,7 @@
 #include "enemy.h"
 #include "bullet.h"
 #include "plistreader.h"
+#include "audioplayer.h"
 #include <QPainter>
 #include <QTimer>
 #include <QPushButton>
@@ -12,6 +13,8 @@
 #include <QMouseEvent>
 #include <QMessageBox>
 #include <QtGlobal>
+#include <QMediaPlayer>
+
 static const int TowerCost = 200;
 
 
@@ -29,6 +32,11 @@ GameWindow::GameWindow(QWidget *parent) :
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
 
     this->setFixedSize(1500,1200);
+//    m_audioPlayer->stopBGM();
+
+//    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/easy.mp3");
+//    m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
+//    m_audioPlayer->startBGM();
 
 
     MyButton * back_bin = new MyButton(":/images/back-button.png");
@@ -94,38 +102,47 @@ void GameWindow::paintEvent(QPaintEvent *){
 
 void GameWindow::addWayPoints()
 {
-    WayPoint *wayPoint1 = new WayPoint(QPoint(1000, 285));
+    WayPoint *wayPoint1 = new WayPoint(QPoint(600-80, 900-80));
     m_wayPointsList.push_back(wayPoint1);
 
-    WayPoint *wayPoint2 = new WayPoint(QPoint(35, 285));
+    WayPoint *wayPoint2 = new WayPoint(QPoint(600-80, 350-80));
     m_wayPointsList.push_back(wayPoint2);
     wayPoint2->setNextWayPoint(wayPoint1);
 
-    WayPoint *wayPoint3 = new WayPoint(QPoint(900, 550));
+    WayPoint *wayPoint3 = new WayPoint(QPoint(700-80, 350-80));
     m_wayPointsList.push_back(wayPoint3);
     wayPoint3->setNextWayPoint(wayPoint2);
 
-    WayPoint *wayPoint4 = new WayPoint(QPoint(900, 1000));
+    WayPoint *wayPoint4 = new WayPoint(QPoint(700-80, 250-80));
     m_wayPointsList.push_back(wayPoint4);
     wayPoint4->setNextWayPoint(wayPoint3);
 
-    WayPoint *wayPoint5 = new WayPoint(QPoint(1400, 1000));
+    WayPoint *wayPoint5 = new WayPoint(QPoint(1050-80, 250-80));
     m_wayPointsList.push_back(wayPoint5);
     wayPoint5->setNextWayPoint(wayPoint4);
 
-    WayPoint *wayPoint6 = new WayPoint(QPoint(1400, 500));
+    WayPoint *wayPoint6 = new WayPoint(QPoint(1050-80, 750-80));
     m_wayPointsList.push_back(wayPoint6);
     wayPoint6->setNextWayPoint(wayPoint5);
+
+    WayPoint *wayPoint7 = new WayPoint(QPoint(950-50, 750-50));
+    m_wayPointsList.push_back(wayPoint7);
+    wayPoint7->setNextWayPoint(wayPoint6);
+
+    WayPoint *wayPoint8 = new WayPoint(QPoint(950-50, 950-50));
+    m_wayPointsList.push_back(wayPoint8);
+    wayPoint8->setNextWayPoint(wayPoint7);
+
+    WayPoint *wayPoint9 = new WayPoint(QPoint(1400-50, 950-50));
+    m_wayPointsList.push_back(wayPoint9);
+    wayPoint9->setNextWayPoint(wayPoint8);
+
+    WayPoint *wayPoint10 = new WayPoint(QPoint(1400-50, 500-50));
+    m_wayPointsList.push_back(wayPoint10);
+    wayPoint10->setNextWayPoint(wayPoint9);
 }
 
-//void GameWindow::addMyobject(){
-//    MyObject * object = new MyObject(QPoint(400,100),QPoint(1000,100),":/images/enemy1.png");
 
-//    object_list.push_back(object);
-
-//    object->move();
-//    update();
-//}
 
 void GameWindow::updateScene()
 {
@@ -231,7 +248,7 @@ AudioPlayer *GameWindow::audioPlayer() const
 
 void GameWindow::getHpDamage(int damage/* = 1*/)
 {
-
+    m_audioPlayer->playSound(LifeLoseSound);
     m_playerHp -= damage;
     if (m_playerHp <= 0)
         doGameOver();
@@ -308,7 +325,26 @@ bool GameWindow::loadWave()
     {
         QMap<QString, QVariant> dict = curWavesInfo[i].toMap();
         int spawnTime = dict.value("spawnTime").toInt();
-        Enemy *enemy = new Enemy(startWayPoint, this);
+
+        Enemy *enemy;
+        int j=i%5;
+        switch(j){
+        case 0:
+            enemy = new normalEnemy(startWayPoint, this);
+            break;
+        case 1:
+            enemy=new iceEnemy(startWayPoint, this);
+            break;
+        case 2:
+            enemy=new fireEnemy(startWayPoint, this);
+            break;
+        case 3:
+            enemy=new fastEnemy(startWayPoint, this);
+            break;
+        case 4:
+            enemy=new bossEnemy(startWayPoint, this);
+            break;
+        }
         m_enemyList.push_back(enemy);
         QTimer::singleShot(spawnTime, enemy, SLOT(doActivate()));
     }
@@ -326,6 +362,5 @@ void GameWindow::gameStart()
 {
     loadWave();
 }
-
 
 

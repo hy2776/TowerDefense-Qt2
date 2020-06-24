@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -16,6 +16,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    audioplayer.cpp \
     bullet.cpp \
     chooselevelwindow.cpp \
     enemy.cpp \
@@ -31,6 +32,7 @@ SOURCES += \
     waypoint.cpp
 
 HEADERS += \
+    audioplayer.h \
     bullet.h \
     chooselevelwindow.h \
     enemy.h \
@@ -54,3 +56,27 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     res.qrc
+
+DISTFILES += \
+    music/First Page.mp3 \
+    music/Lose.mp3 \
+    music/Win.mp3 \
+    music/bgmusic2.mp3 \
+    music/bossEnemyDie.mp3 \
+    music/daojishi.mp3 \
+    music/easy.mp3 \
+    music/enemy_destroy.wav \
+    music/fastEnemyDie.mp3 \
+    music/fireBullet.mp3 \
+    music/fireEnemyDie.mp3 \
+    music/hard.mp3 \
+    music/iceBullet.mp3 \
+    music/iceEnemyDie.mp3 \
+    music/laserBullet.mp3 \
+    music/life_lose.mp3 \
+    music/mainmusic.mp3 \
+    music/mouse.mp3 \
+    music/normalBullet.mp3 \
+    music/normalEnemyDie.mp3 \
+    music/select.mp3 \
+    music/tower_place.mp3

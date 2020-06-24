@@ -8,6 +8,7 @@
 #include <QPainter>
 #include "tower.h"
 #include "towerposition.h"
+#include "audioplayer.h"
 class WayPoint;
 class Enemy;
 class Bullet;
@@ -47,6 +48,7 @@ private:
     void drawPlayerGold(QPainter *painter);
     void doGameOver();
     void preLoadWavesInfo();
+
 
 private:
     int						m_waves;
