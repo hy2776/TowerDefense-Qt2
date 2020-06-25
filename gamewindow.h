@@ -1,23 +1,44 @@
 #ifndef GAMEWINDOW_H
 #define GAMEWINDOW_H
 
-#include <QMainWindow>
-#include <QList>
-#include "myobject.h"
+#include <QWidget>
+#include <QMovie>
+#include <QTimer>
+#include <QLabel>
+#include <QMouseEvent>
 #include <QPushButton>
+#include <QKeyEvent>
+#include <waypoint.h>
+#include <enemy.h>
+#include <tower.h>
+#include <QPaintEvent>
 #include <QPainter>
+#include <QList>
+#include <QtGlobal>
+#include <QMessageBox>
+#include <QXmlStreamReader>
+#include <QtDebug>
+#include <QMainWindow>
+#include "myobject.h"
 #include "tower.h"
 #include "towerposition.h"
 #include "audioplayer.h"
+#include "towericon.h"
 class WayPoint;
 class Enemy;
 class Bullet;
 class AudioPlayer;
+class TowerIcon;
+
+
+
+
 
 class GameWindow : public QMainWindow
 {
     Q_OBJECT
 public:
+    QList<TowerIcon*> Icons;
     explicit GameWindow(QWidget *parent = nullptr);
 
 
@@ -28,8 +49,22 @@ public:
     void awardGold(int gold);
     AudioPlayer* audioPlayer() const;
     QList<Enemy *> enemyList() const;
+    void uiSetup();
 
     void updateScene();
+    int                     towertype;
+    int                     del;
+    int                     up;
+
+//    QLabel* NormalTowerPic = new QLabel(this);
+//    //QMovie* normalTowerPic = new QMovie(":/picture/frame.png");
+//    QLabel* FireTowerPic = new QLabel(this);
+//    //QMovie* fireTowerPic = new QMovie(":/picture/frame.png");
+//    QLabel* IceTowerPic = new QLabel(this);
+//    //QMovie* iceTowerPic = new QMovie(":/picture/frame.png");
+//    QLabel* LaserTowerPic = new QLabel(this);
+//    //QMovie* laserTowerPic = new QMovie(":/picture/frame.png");
+
 protected:
     void paintEvent(QPaintEvent *);
     void mousePressEvent(QMouseEvent *);
@@ -39,6 +74,8 @@ private slots:
     void gameStart();
 
 private:
+    //通过转换让其建立不同性质的塔，默认为1
+    bool canUpgradeTower() const;
     void loadTowerPositions();
     void addWayPoints();
     bool loadWave();
@@ -51,6 +88,8 @@ private:
 
 
 private:
+
+
     int						m_waves;
     int						m_playerHp;
     int						m_playrGold;

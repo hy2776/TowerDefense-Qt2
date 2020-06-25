@@ -1,11 +1,14 @@
 #include "gamewindow.h"
 #include "chooselevelwindow.h"
+#include "mainwindow.h"
 #include "mybutton.h"
 #include "waypoint.h"
 #include "enemy.h"
 #include "bullet.h"
 #include "plistreader.h"
 #include "audioplayer.h"
+#include "towericon.h"
+
 #include <QPainter>
 #include <QTimer>
 #include <QPushButton>
@@ -15,51 +18,141 @@
 #include <QtGlobal>
 #include <QMediaPlayer>
 
-static const int TowerCost = 200;
+
+static const int TowerCost1 = 100;
+static const int TowerCost2 = 220;
+static const int TowerCost3 = 160;
+static const int TowerCost4 = 220;//设定每安置一个炮塔花费的金币
+static const int UpdateTowerCost = 200;//设定升级炮塔花费200金币
+static const int RemoveTowerGet = 100;//设定拆除炮塔得到100金币
 
 
 GameWindow::GameWindow(QWidget *parent) :
     QMainWindow(parent)
+
     , m_waves(0)
-    , m_playerHp(1)
+    , m_playerHp(15)
     , m_playrGold(10000)
     , m_gameEnded(false)
     , m_gameWin(false)
 {
-    preLoadWavesInfo();
-    loadTowerPositions();
-    addWayPoints();
+
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
 
     this->setFixedSize(1500,1200);
-//    m_audioPlayer->stopBGM();
-
-//    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/easy.mp3");
-//    m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
-//    m_audioPlayer->startBGM();
 
 
     MyButton * back_bin = new MyButton(":/images/back-button.png");
     back_bin->setParent(this);
     back_bin->setIconSize(QSize(350,175));
-    back_bin->move(-100,900);
+    back_bin->move(1200,30);
     connect(back_bin,&MyButton::clicked,this,[=](){
-        emit chooseBack();
+        back_bin->zoomdown();
+        back_bin->zoomup();
+        QTimer::singleShot(200,this,[=](){
+         emit chooseBack();
+        });
+    });
+
+    MyButton * tower1 = new MyButton(":/images/tower1icon.png");
+    tower1->setParent(this);
+    tower1->setIconSize(QSize(150,150));
+    tower1->move(30,280);
+    connect(tower1,&MyButton::clicked,this,[=](){
+        tower1->zoomdown();
+        tower1->zoomup();
+        towertype=1;
+        up=0;
+        del=0;
+    });
+
+    MyButton * tower2 = new MyButton(":/images/tower2icon.png");
+    tower2->setParent(this);
+    tower2->setIconSize(QSize(150,150));
+    tower2->move(30,450);
+    connect(tower2,&MyButton::clicked,this,[=](){
+        tower2->zoomdown();
+        tower2->zoomup();
+        towertype=2;
+        up=0;
+        del=0;
+    });
+
+    MyButton * tower3 = new MyButton(":/images/tower3icon.png");
+    tower3->setParent(this);
+    tower3->setIconSize(QSize(150,150));
+    tower3->move(30,620);
+    connect(tower3,&MyButton::clicked,this,[=](){
+        tower3->zoomdown();
+        tower3->zoomup();
+        towertype=3;
+        up=0;
+        del=0;
+    });
+
+    MyButton * tower4 = new MyButton(":/images/tower4icon.png");
+    tower4->setParent(this);
+    tower4->setIconSize(QSize(150,150));
+    tower4->move(30,790);
+    connect(tower4,&MyButton::clicked,this,[=](){
+        tower4->zoomdown();
+        tower4->zoomup();
+        towertype=4;
+        up=0;
+        del=0;
     });
 
     MyButton * play = new MyButton(":/images/Button.png");
     play->setParent(this);
     play->move(1100,1010);
 
+    MyButton * upgrade_bin = new MyButton(":/images/upgrade.png");
+    upgrade_bin->setParent(this);
+    upgrade_bin->setIconSize(QSize(140,140));
+    upgrade_bin->move(30,960);
+    connect(upgrade_bin,&MyButton::clicked,this,[=](){
+        upgrade_bin->zoomdown();
+        upgrade_bin->zoomup();
+        towertype=0;
+        up=1;
+        del=0;
+    });
+
+    MyButton * deletetower_bin = new MyButton(":/images/deletetower.png");
+    deletetower_bin->setParent(this);
+    deletetower_bin->setIconSize(QSize(150,150));
+    deletetower_bin->move(200,960);
+    connect(deletetower_bin,&MyButton::clicked,this,[=](){
+        deletetower_bin->zoomdown();
+        deletetower_bin->zoomup();
+        towertype=0;
+        up=0;
+        del=1;
+    });
+
+    preLoadWavesInfo();
+    loadTowerPositions();
+    addWayPoints();
+
+
 
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMap()));
     timer->start(10);
-    // 设置300ms后游戏启动
-    QTimer::singleShot(300, this, SLOT(gameStart()));
+    //this->uiSetup();
+    // 设置500ms后游戏启动
+    QTimer::singleShot(500, this, SLOT(gameStart()));
 
 
 }
+
+//void GameWindow::uiSetup()
+//{
+//    TowerIcon *card0 = new NormalTowerIcon(this);
+//    card0->setGeometry(180, 10 , 100, 60);
+//    Icons.append(card0);
+//    card0->show();
+//}
 void GameWindow::paintEvent(QPaintEvent *){
     QPainter painter(this);
     QPixmap pixmap(":/images/01A.png");
@@ -78,16 +171,35 @@ void GameWindow::paintEvent(QPaintEvent *){
         return;
     }
 
-    for(int i=0;i<=15;++i)
+    QPixmap luobo1(":/images/luobo1.png");
+    QPixmap luobo2(":/images/luobo2.png");
+    QPixmap luobo3(":/images/luobo3.png");
+    QPixmap luobo4(":/images/luobo4.png");
+    QPixmap luobo5(":/images/luobo5.png");
+    if(m_playerHp>=13){
+        painter.drawPixmap(480,900,150,200,luobo1);
+    }
+    else if(m_playerHp<13&&m_playerHp>=9){
+       painter.drawPixmap(480,900,150,200,luobo2);
+    }
+    else if(m_playerHp<9&&m_playerHp>=6){
+       painter.drawPixmap(480,900,150,200,luobo3);
+    }
+    else if(m_playerHp<6&&m_playerHp>=3){
+       painter.drawPixmap(480,900,150,200,luobo4);
+    }
+    else{
+        painter.drawPixmap(480,900,150,200,luobo5);
+    }
+
+
+    for(int i=0;i<=19;++i)
     {
         painter.drawPixmap(m_towerPositionsList[i].Pos11x(),m_towerPositionsList[i].Pos11y(),110,110,QPixmap(":/images/base2.png"));
     }
 
     foreach (const Tower *tower, m_towersList)
         tower->draw(&painter);
-
-    //foreach (const WayPoint *wayPoint, m_wayPointsList)
-    //    wayPoint->draw(&painter);
 
     foreach (const Enemy *enemy, m_enemyList)
         enemy->draw(&painter);
@@ -97,6 +209,8 @@ void GameWindow::paintEvent(QPaintEvent *){
 
     //drawHP(&painter);
     drawPlayerGold(&painter);
+    drawWave(&painter);
+    drawHP(&painter);
 
 }
 
@@ -125,19 +239,19 @@ void GameWindow::addWayPoints()
     m_wayPointsList.push_back(wayPoint6);
     wayPoint6->setNextWayPoint(wayPoint5);
 
-    WayPoint *wayPoint7 = new WayPoint(QPoint(950-50, 750-50));
+    WayPoint *wayPoint7 = new WayPoint(QPoint(950-80, 750-80));
     m_wayPointsList.push_back(wayPoint7);
     wayPoint7->setNextWayPoint(wayPoint6);
 
-    WayPoint *wayPoint8 = new WayPoint(QPoint(950-50, 950-50));
+    WayPoint *wayPoint8 = new WayPoint(QPoint(950-80, 950-80));
     m_wayPointsList.push_back(wayPoint8);
     wayPoint8->setNextWayPoint(wayPoint7);
 
-    WayPoint *wayPoint9 = new WayPoint(QPoint(1400-50, 950-50));
+    WayPoint *wayPoint9 = new WayPoint(QPoint(1400-80, 950-80));
     m_wayPointsList.push_back(wayPoint9);
     wayPoint9->setNextWayPoint(wayPoint8);
 
-    WayPoint *wayPoint10 = new WayPoint(QPoint(1400-50, 500-50));
+    WayPoint *wayPoint10 = new WayPoint(QPoint(1400-80, 500-80));
     m_wayPointsList.push_back(wayPoint10);
     wayPoint10->setNextWayPoint(wayPoint9);
 }
@@ -168,10 +282,10 @@ void GameWindow::loadTowerPositions()
         QPoint(1223, 675),
         QPoint(1223, 790),
         QPoint(1108, 790),
-//        QPoint(538, 215),
-//        QPoint(768, 895),
-//        QPoint(883, 1050),
-//        QPoint(1108, 330)
+        QPoint(538, 215),
+        QPoint(768, 895),
+        QPoint(883, 1050),
+        QPoint(1108, 330),//待调整位置
         QPoint(993, 790)
     };
     int len	= sizeof(pos) / sizeof(pos[0]);
@@ -182,16 +296,12 @@ void GameWindow::loadTowerPositions()
 
 bool GameWindow::canBuyTower() const
 {
-    if (m_playrGold >= TowerCost)
+    if (m_playrGold >= TowerCost1)
         return true;
     return false;
 }
 
-void GameWindow::drawWave(QPainter *painter)
-{
-    painter->setPen(QPen(Qt::blue));
-    painter->drawText(QRect(400, 5, 100, 25), QString("WAVE : %1").arg(m_waves + 1));
-}
+
 
 void GameWindow::mousePressEvent(QMouseEvent *event)
 {
@@ -199,17 +309,103 @@ void GameWindow::mousePressEvent(QMouseEvent *event)
     auto it = m_towerPositionsList.begin();
     while (it != m_towerPositionsList.end())
     {
-        if (canBuyTower() && it->containPoint(pressPos) && !it->hasTower())
+        if (canBuyTower() && it->containPoint(pressPos) && !it->hasTower() && towertype==1 && up==0 && del==0)
         {
-
-            m_playrGold -= TowerCost;
+            m_audioPlayer->playSound(TowerPlaceSound);
+            m_playrGold -= TowerCost1;
             it->setHasTower();
 
-            Tower *tower = new Tower(it->centerPos(), this);
-            m_towersList.push_back(tower);
+            it->m_tower = new Tower1(it->centerPos(), this);
+            m_towersList.push_back(it->m_tower);
             update();
             break;
         }
+        if (canBuyTower() && it->containPoint(pressPos) && !it->hasTower() && towertype==2 && up==0 && del==0)
+        {
+            m_audioPlayer->playSound(TowerPlaceSound);
+            m_playrGold -= TowerCost2;
+            it->setHasTower();
+
+            it->m_tower = new Tower2(it->centerPos(), this);//构建的同时直接在mainwindow上作画
+            m_towersList.push_back(it->m_tower);//把新构建的塔放入towerlist中储存，方便管理
+            update();
+            break;
+        }
+        if (canBuyTower() && it->containPoint(pressPos) && !it->hasTower() && towertype==3 && up==0 && del==0)
+        {
+            m_audioPlayer->playSound(TowerPlaceSound);
+            m_playrGold -= TowerCost3;
+            it->setHasTower();
+
+            it->m_tower = new Tower3(it->centerPos(), this);//构建的同时直接在mainwindow上作画
+            m_towersList.push_back(it->m_tower);//把新构建的塔放入towerlist中储存，方便管理
+            update();
+            break;
+        }
+        if (canBuyTower() && it->containPoint(pressPos) && !it->hasTower() && towertype==4 && up==0 && del==0)
+        {
+            m_audioPlayer->playSound(TowerPlaceSound);
+            m_playrGold -= TowerCost4;
+            it->setHasTower();
+
+            it->m_tower = new Tower4(it->centerPos(), this);//构建的同时直接在mainwindow上作画
+            m_towersList.push_back(it->m_tower);//把新构建的塔放入towerlist中储存，方便管理
+            update();
+            break;
+        }
+        //删除的鼠标事件，难点：如何删除塔
+        if( it->containPoint(pressPos) && it->hasTower() && towertype==0 && up==0 && del==1)
+        {
+            m_towersList.removeOne(it->m_tower);
+            it->setHasnotTower();
+            m_playrGold+=RemoveTowerGet;
+            m_audioPlayer->playSound(TowerPlaceSound);
+            update();
+            break;
+        }
+        //升级的鼠标事件
+        if( it->containPoint(pressPos) && it->hasTower() && towertype==0 && up==1 && del==0)
+        {
+             if(it->m_tower->gettowertype()==1 && it->m_tower->getlevel()==1 && m_playrGold>=UpdateTowerCost)
+             {
+                 m_towersList.removeOne(it->m_tower);
+                 it->m_tower = new Tower1_2(it->centerPos(), this);
+                 m_towersList.push_back(it->m_tower);
+                 m_playrGold -= UpdateTowerCost;
+
+                 update();
+             }
+             if(it->m_tower->gettowertype()==2 && it->m_tower->getlevel()==1 && m_playrGold>=UpdateTowerCost)
+             {
+                 m_towersList.removeOne(it->m_tower);
+                 it->m_tower = new Tower2_2(it->centerPos(), this);
+                 m_towersList.push_back(it->m_tower);
+                 m_playrGold -= UpdateTowerCost;
+                 update();
+
+             }
+             if(it->m_tower->gettowertype()==3 && it->m_tower->getlevel()==1 && m_playrGold>=UpdateTowerCost)
+             {
+                 m_towersList.removeOne(it->m_tower);
+                 it->m_tower = new Tower3_2(it->centerPos(), this);
+                 m_towersList.push_back(it->m_tower);
+                 m_playrGold -= UpdateTowerCost;
+                 update();
+
+             }
+             if(it->m_tower->gettowertype()==4 && it->m_tower->getlevel()==1 && m_playrGold>=UpdateTowerCost)
+             {
+                 m_towersList.removeOne(it->m_tower);
+                 it->m_tower = new Tower4_2(it->centerPos(), this);
+                 m_towersList.push_back(it->m_tower);
+                 m_playrGold -= UpdateTowerCost;
+                 update();
+
+             }
+            m_audioPlayer->playSound(TowerPlaceSound);
+            break;
+        }
+
 
         ++it;
     }
@@ -225,6 +421,22 @@ void GameWindow::drawPlayerGold(QPainter *painter)
     painter->drawPixmap(0,0,55,80,pix);
 }
 
+void GameWindow::drawWave(QPainter *painter)
+{
+    painter->setPen(QPen(Qt::yellow));
+    QFont font1("宋体",28,QFont::Bold, true) ;
+    painter->setFont(font1);
+    painter->drawText(QRect(8, 100, 300, 500), QString("WAVE:%1").arg(m_waves + 1));
+}
+
+void GameWindow::drawHP(QPainter *painter)
+{
+    painter->setPen(QPen(Qt::red));
+    QFont font1("宋体",28,QFont::Bold, true) ;
+    painter->setFont(font1);
+    painter->drawText(QRect(8, 200, 500, 500), QString("HP:%1").arg(m_playerHp));
+}
+
 void GameWindow::doGameOver()
 {
     if (!m_gameEnded)
@@ -232,6 +444,9 @@ void GameWindow::doGameOver()
         m_gameEnded = true;
         // 此处应该切换场景到结束场景
         // 暂时以打印替代,见paintEvent处理
+
+        //m_audioPlayer->stopBGM();
+        m_audioPlayer->playLoseSound();
     }
 }
 
@@ -248,7 +463,7 @@ AudioPlayer *GameWindow::audioPlayer() const
 
 void GameWindow::getHpDamage(int damage/* = 1*/)
 {
-    m_audioPlayer->playSound(LifeLoseSound);
+    m_audioPlayer->playSound(luoboCrySound);
     m_playerHp -= damage;
     if (m_playerHp <= 0)
         doGameOver();
@@ -269,9 +484,12 @@ void GameWindow::removedEnemy(Enemy *enemy)
             m_gameWin = true;
             // 游戏胜利转到游戏胜利场景
             // 这里暂时以打印处理
+//            m_audioPlayer->stopBGM();
+            //m_audioPlayer->playWinSound();
         }
     }
 }
+
 
 void GameWindow::removedBullet(Bullet *bullet)
 {
@@ -363,4 +581,10 @@ void GameWindow::gameStart()
     loadWave();
 }
 
+bool GameWindow::canUpgradeTower() const
+{
+    if(m_playrGold >= UpdateTowerCost)
+        return true;
+    return false;
+}
 

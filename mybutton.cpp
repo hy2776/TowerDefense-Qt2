@@ -18,7 +18,7 @@ void MyButton::zoomdown(){
     //设置起始位置
     animation->setStartValue(QRect(this->x(),this->y(),this->width(),this->height()));
     //设置结束位置
-    animation->setEndValue(QRect(this->x(),this->y()+10,this->width(),this->height()));
+    animation->setEndValue(QRect(this->x(),this->y()+7,this->width(),this->height()));
     //设置弹跳曲线
     animation->setEasingCurve(QEasingCurve::OutBounce);
     //执行动画
@@ -29,7 +29,7 @@ void MyButton::zoomdown(){
 void MyButton::zoomup(){
     QPropertyAnimation * animation = new QPropertyAnimation(this,"geometry");
     animation->setDuration(200);
-    animation->setStartValue(QRect(this->x(),this->y()+10,this->width(),this->height()));
+    animation->setStartValue(QRect(this->x(),this->y()+7,this->width(),this->height()));
     animation->setEndValue(QRect(this->x(),this->y(),this->width(),this->height()));
     animation->setEasingCurve(QEasingCurve::OutBounce);
     animation->start();

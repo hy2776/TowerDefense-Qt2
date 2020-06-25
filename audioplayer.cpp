@@ -63,6 +63,7 @@ void AudioPlayer::playSound(SoundType soundType)
         QUrl::fromLocalFile(s_curDir + "/fireEnemyDie.mp3"),
         QUrl::fromLocalFile(s_curDir + "/fastEnemyDie.mp3"),
         QUrl::fromLocalFile(s_curDir + "/bossEnemyDie.mp3"),
+        QUrl::fromLocalFile(s_curDir + "/cry.mp3"),
     };
     static QMediaPlayer player;
 

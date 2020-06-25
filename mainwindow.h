@@ -44,6 +44,7 @@ protected:
     void paintEvent(QPaintEvent *);
     //void mousePressEvent(QMouseEvent *);//鼠标点击触发事件
 
+
 private:
     Ui::MainWindow *ui;
 };

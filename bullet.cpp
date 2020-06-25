@@ -55,26 +55,25 @@ void Bullet::setCurrentPos(QPoint pos){
 QPoint Bullet::currentPos() const{
     return m_currentPos;
 }
-
-NormalBullet::NormalBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, const QPixmap &sprite)
+Tower1Bullet::Tower1Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, const QPixmap &sprite)
     :Bullet(startPos, targetPoint, damage, target, game)
 {
 
 }
 
-FireBullet::FireBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, int fireattack, const QPixmap &sprite)
+Tower2Bullet::Tower2Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, int fireattack, const QPixmap &sprite)
     :Bullet(startPos, targetPoint, damage, target, game, kind, fireattack, 1, sprite)
 {
 
 }
 
-IceBullet::IceBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, qreal slow, const QPixmap &sprite)
+Tower3Bullet::Tower3Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind, qreal slow, const QPixmap &sprite)
     :Bullet(startPos, targetPoint, damage, target, game, kind, 0, slow, sprite)
 {
 
 }
 
-LaserBullet::LaserBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind,const QPixmap &sprite)
+Tower4Bullet::Tower4Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind,const QPixmap &sprite)
     :Bullet(startPos, targetPoint, damage, target, game, kind, 0, 1, sprite)
 {
 

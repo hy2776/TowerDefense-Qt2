@@ -23,6 +23,7 @@ enum SoundType
     fireEnemyDestorySound,
     fastEnemyDestorySound,
     bossEnemyDestorySound,
+    luoboCrySound,
 };
 
 class AudioPlayer : public QObject

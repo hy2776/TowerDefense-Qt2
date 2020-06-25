@@ -33,6 +33,11 @@ void TowerPosition::setHasTower(bool hasTower/* = true*/)
     m_hasTower = hasTower;
 }
 
+void TowerPosition::setHasnotTower(bool hasnotTower)
+{
+    m_hasTower = hasnotTower;
+}
+
 void TowerPosition::draw(QPainter *painter)
 {
     painter->drawPixmap(m_pos.x(), m_pos.y(), m_sprite);

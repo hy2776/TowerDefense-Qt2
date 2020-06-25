@@ -10,8 +10,9 @@
 #include "chooselevelwindow.h"
 #include "mybutton.h"
 #include "audioplayer.h"
+#include "gamewindow.h"
 
-
+class GameWindow;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -68,3 +69,4 @@ void MainWindow::paintEvent(QPaintEvent *){
     painter.drawPixmap(this->width()-pixmap1.width()+90,300,pixmap1.width()*0.8,pixmap1.height()*0.8,pixmap1);
 
 }
+

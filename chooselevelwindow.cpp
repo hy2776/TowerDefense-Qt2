@@ -16,7 +16,12 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
     back_bin->move(-100,900);
 
     connect(back_bin,&MyButton::clicked,this,[=](){
-        emit chooseBack();
+        back_bin->zoomup();
+        back_bin->zoomdown();
+        QTimer::singleShot(200,this,[=](){
+         emit chooseBack();
+        });
+
     });
 
     //设置关卡按钮
@@ -53,14 +58,22 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
     //点击关卡，显示对应主题游戏界面
     GameWindow * scene1 = new GameWindow;
     connect(levelbtn1,&MyButton::clicked,[=](){
-        this->hide();
-        scene1->show();
+        levelbtn1->zoomdown();
+        levelbtn1->zoomup();
+        QTimer::singleShot(300,this,[=](){
+            this->hide();
+            scene1->show();
+        });
     });
 
     GameWindow2 * scene2= new GameWindow2;
     connect(levelbtn2,&MyButton::clicked,[=](){
-        this->hide();
-        scene2->show();
+        levelbtn2->zoomdown();
+        levelbtn2->zoomup();
+        QTimer::singleShot(300,this,[=](){
+            this->hide();
+            scene2->show();
+        });
     });
 
 

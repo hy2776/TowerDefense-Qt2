@@ -13,7 +13,7 @@
 
 
 //血条长度
-static const int Health_Bar_Width = 75;
+static const int Health_Bar_Width = 100;
 const QSize Enemy::ms_fixedSize(10, 10);
 Enemy::Enemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite/* = QPixmap(":/images/monster1.png")*/)
     : QObject(0)
@@ -96,7 +96,7 @@ void Enemy::draw(QPainter *painter) const{
     painter->translate(m_pos); //这里将坐标原点移到m_pos
     painter->rotate(m_rotationSprite);
     // 绘制敌人
-    painter->drawPixmap(offsetPoint.x(),offsetPoint.y(),150,150, m_sprite);
+    painter->drawPixmap(offsetPoint.x(),offsetPoint.y(),200,200, m_sprite);
 
     painter->restore();
 }
@@ -208,7 +208,7 @@ fireEnemy::fireEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &s
     :Enemy(startWayPoint, game,sprite/* = QPixmap(":/images/enemy3.png")*/)
 {
     this->enemyKind=3;
-    this->award=300;
+    this->award=200;
     this->m_maxHp = 85;
     this->m_currentHp = 85;
     this->antiSlowspeed=1.2;
@@ -225,12 +225,12 @@ fastEnemy::fastEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &s
     :Enemy(startWayPoint, game,sprite/* = QPixmap(":/images/enemy4.png")*/)
 {
     this->enemyKind=4;
-    this->award=350;
+    this->award=250;
     this->m_maxHp = 90;
     this->m_currentHp = 90;
-    this->m_normalSpeed=4.0;
-    this->m_walkingSpeed=4.0;
-    this->antiSlowspeed=2.0;
+    this->m_normalSpeed=2.0;
+    this->m_walkingSpeed=2.0;
+    this->antiSlowspeed=4.0;
     this->fireLevel=15;
     this->iceLevel=15;
     this->HPdamage=2;
@@ -243,11 +243,11 @@ bossEnemy::bossEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &s
     :Enemy(startWayPoint, game,sprite/* = QPixmap(":/images/monster1.png")*/)
 {
     this->enemyKind=5;
-    this->award=400;
+    this->award=300;
     this->m_maxHp = 100;
     this->m_currentHp = 100;
     this->m_normalSpeed=3.0;
-    this->m_walkingSpeed=3.0;
+    this->m_walkingSpeed=4.0;
     this->antiSlowspeed=1.5;
     this->fireattack=1.0;
     this->fireLevel=10;

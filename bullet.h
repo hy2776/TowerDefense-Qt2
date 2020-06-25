@@ -22,7 +22,7 @@ class Bullet : public QObject
     Q_PROPERTY(QPoint m_currentPos READ currentPos WRITE setCurrentPos)
 
 public:
-    Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 0, int fire = 0, qreal slow = 1, const QPixmap &sprite = QPixmap(":/images/normalbullet.png"));
+    Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 0, int fire = 0, qreal slow = 1, const QPixmap &sprite = QPixmap(":/images/tower4bullet.png"));
 
     void draw(QPainter *painter) const;
     void move();
@@ -48,38 +48,38 @@ protected:
     static const QSize ms_fixedSize;
 };
 
-class NormalBullet: public Bullet
+class Tower1Bullet: public Bullet
 {
     Q_OBJECT
 
 public:
-    NormalBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/normalbullet.png"));
+    Tower1Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/tower1bullet.png"));
 };
 
-class FireBullet: public Bullet
+class Tower2Bullet: public Bullet
 {
     Q_OBJECT
 
 public:
-    FireBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 1, int fire = 1, const QPixmap &sprite = QPixmap(":/images/firebullet.png"));
-
-};
-
-class IceBullet: public Bullet
-{
-    Q_OBJECT
-
-public:
-    IceBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 2, qreal slow = 0.5, const QPixmap &sprite = QPixmap(":/images/icebullet.png"));
+    Tower2Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 1, int fire = 1, const QPixmap &sprite = QPixmap(":/images/tower2bullet.png"));
 
 };
 
-class LaserBullet: public Bullet
+class Tower3Bullet: public Bullet
 {
     Q_OBJECT
 
 public:
-    LaserBullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 3,const QPixmap &sprite = QPixmap(":/images/laserbullet.png"));
+    Tower3Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 2, qreal slow = 0.5, const QPixmap &sprite = QPixmap(":/images/tower3bullet.png"));
+
+};
+
+class Tower4Bullet: public Bullet
+{
+    Q_OBJECT
+
+public:
+    Tower4Bullet(QPoint startPos, QPoint targetPoint, int damage, Enemy *target, GameWindow *game, int kind = 3,const QPixmap &sprite = QPixmap(":/images/tower4bullet.png"));
 
 };
 

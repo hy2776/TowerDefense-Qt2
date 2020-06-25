@@ -78,7 +78,7 @@ public:
 class fastEnemy:public Enemy{
     Q_OBJECT
 public:
-    fastEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/monster4.png"));
+    fastEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy4.png"));
 };
 
 class bossEnemy:public Enemy{

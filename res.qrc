@@ -23,7 +23,6 @@
         <file>images/tower1.png</file>
         <file>images/tower1bullet.png</file>
         <file>images/tower1icon.png</file>
-        <file>images/base.png</file>
         <file>config/Info.plist</file>
         <file>config/TowersPosition.plist</file>
         <file>config/Waves.plist</file>
@@ -38,5 +37,25 @@
         <file>images/icebullet.png</file>
         <file>images/laserbullet.png</file>
         <file>images/normalbullet.png</file>
+        <file>images/tower2.png</file>
+        <file>images/tower2bullet.png</file>
+        <file>images/tower2icon.png</file>
+        <file>images/tower3.png</file>
+        <file>images/tower3bullet.png</file>
+        <file>images/tower4.png</file>
+        <file>images/tower4bullet.png</file>
+        <file>images/tower4icon.png</file>
+        <file>images/tower3icon.png</file>
+        <file>images/upgrade.png</file>
+        <file>images/deletetower.png</file>
+        <file>images/tower1-2.png</file>
+        <file>images/tower2-2.png</file>
+        <file>images/tower3-2.png</file>
+        <file>images/tower4-1.png</file>
+        <file>images/luobo1.png</file>
+        <file>images/luobo2.png</file>
+        <file>images/luobo3.png</file>
+        <file>images/luobo4.png</file>
+        <file>images/luobo5.png</file>
     </qresource>
 </RCC>
