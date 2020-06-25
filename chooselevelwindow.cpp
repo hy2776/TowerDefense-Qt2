@@ -12,7 +12,7 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
     this->setFixedSize(1500,1200);
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
 
-    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/mainmusic.mp3");
+    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/levelmusic.mp3");
     m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
     m_audioPlayer->startBGM();
 
@@ -69,6 +69,7 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
         levelbtn1->zoomup();
         GameWindow * scene1 = new GameWindow;
         QTimer::singleShot(300,this,[=](){
+            m_audioPlayer->stopBGM();
             this->hide();
             scene1->show();
 
@@ -76,6 +77,7 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
             connect(scene1,&GameWindow::chooseBack,this,[=](){
                 scene1->hide();
                 this->show();
+                m_audioPlayer->startBGM();
             });
         });
     });
@@ -86,11 +88,13 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
         levelbtn2->zoomup();
         GameWindow2 * scene2= new GameWindow2;
         QTimer::singleShot(300,this,[=](){
+            m_audioPlayer->stopBGM();
             this->hide();
             scene2->show();
             connect(scene2,&GameWindow2::chooseBack,this,[=](){
                 scene2->hide();
                 this->show();
+                m_audioPlayer->startBGM();
             });
 
         });

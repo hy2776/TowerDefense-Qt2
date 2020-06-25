@@ -30,22 +30,24 @@ MainWindow::MainWindow(QWidget *parent)
     bin->move(600,800);
 
 
-    ChooseLevelWindow * scene = new ChooseLevelWindow;
+
     connect(bin,&QPushButton::clicked,this,[=](){
         bin->zoomdown();
         bin->zoomup();
+        ChooseLevelWindow * scene = new ChooseLevelWindow;
         QTimer::singleShot(500,this,[=](){
+            m_audioPlayer->stopBGM();
             this->hide();
             scene->show();
+            connect(scene,&ChooseLevelWindow::chooseBack,this,[=](){
+                m_audioPlayer->startBGM();
+                scene->hide();
+                this->show();
+            });
         });
     });
 
-    connect(scene,&ChooseLevelWindow::chooseBack,this,[=](){
 
-        scene->hide();
-        this->show();
-    });
-    //mywindow back_bin clicked emit choose
 
 }
 

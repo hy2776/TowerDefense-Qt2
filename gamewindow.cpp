@@ -53,6 +53,7 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(back_bin,&MyButton::clicked,this,[=](){
         back_bin->zoomdown();
         back_bin->zoomup();
+        m_audioPlayer->stopBGM();
         QTimer::singleShot(200,this,[=](){
          emit chooseBack();
         });
