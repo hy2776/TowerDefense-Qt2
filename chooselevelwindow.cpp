@@ -2,18 +2,25 @@
 #include "mybutton.h"
 #include "gamewindow.h"
 #include "gamewindow2.h"
+#include "audioplayer.h"
 #include <QPainter>
 #include <QTimer>
 #include <QPushButton>
+#include <QMediaPlayer>
 ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
 {
     this->setFixedSize(1500,1200);
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
 
+    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/mainmusic.mp3");
+    m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
+    m_audioPlayer->startBGM();
+
+
     MyButton * back_bin = new MyButton(":/images/back-button.png");
     back_bin->setParent(this);
     back_bin->setIconSize(QSize(350,175));
-    back_bin->move(-100,900);
+    back_bin->move(50,1000);
 
     connect(back_bin,&MyButton::clicked,this,[=](){
         back_bin->zoomup();
@@ -56,36 +63,41 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
     levelbtn6->move(800,600);
 
     //点击关卡，显示对应主题游戏界面
-    GameWindow * scene1 = new GameWindow;
+
     connect(levelbtn1,&MyButton::clicked,[=](){
         levelbtn1->zoomdown();
         levelbtn1->zoomup();
+        GameWindow * scene1 = new GameWindow;
         QTimer::singleShot(300,this,[=](){
             this->hide();
             scene1->show();
+
+            //点击返回按钮，返回选择关卡界面
+            connect(scene1,&GameWindow::chooseBack,this,[=](){
+                scene1->hide();
+                this->show();
+            });
         });
     });
 
-    GameWindow2 * scene2= new GameWindow2;
+
     connect(levelbtn2,&MyButton::clicked,[=](){
         levelbtn2->zoomdown();
         levelbtn2->zoomup();
+        GameWindow2 * scene2= new GameWindow2;
         QTimer::singleShot(300,this,[=](){
             this->hide();
             scene2->show();
+            connect(scene2,&GameWindow2::chooseBack,this,[=](){
+                scene2->hide();
+                this->show();
+            });
+
         });
     });
 
 
-    //点击返回按钮，返回选择关卡界面
-    connect(scene1,&GameWindow::chooseBack,this,[=](){
-        scene1->hide();
-        this->show();
-    });
-    connect(scene2,&GameWindow2::chooseBack,this,[=](){
-        scene2->hide();
-        this->show();
-    });
+
 
 
 
@@ -106,7 +118,10 @@ void ChooseLevelWindow::paintEvent(QPaintEvent *){
 
 }
 
-
+AudioPlayer *ChooseLevelWindow::audioPlayer() const
+{
+    return m_audioPlayer;
+}
 
 
 void ChooseLevelWindow::updateScene()

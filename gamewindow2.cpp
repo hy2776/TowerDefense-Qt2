@@ -22,7 +22,7 @@ GameWindow2::GameWindow2(QWidget *parent) : QMainWindow(parent)
     MyButton * back_bin = new MyButton(":/images/back-button.png");
     back_bin->setParent(this);
     back_bin->setIconSize(QSize(350,175));
-    back_bin->move(-100,900);
+    back_bin->move(50,1000);
     connect(back_bin,&MyButton::clicked,this,[=](){
         emit chooseBack();
     });

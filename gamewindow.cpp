@@ -41,6 +41,10 @@ GameWindow::GameWindow(QWidget *parent) :
 
     this->setFixedSize(1500,1200);
 
+    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/bgmusic2.mp3");
+    m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
+    m_audioPlayer->startBGM();
+
 
     MyButton * back_bin = new MyButton(":/images/back-button.png");
     back_bin->setParent(this);
@@ -53,6 +57,7 @@ GameWindow::GameWindow(QWidget *parent) :
          emit chooseBack();
         });
     });
+
 
     MyButton * tower1 = new MyButton(":/images/tower1icon.png");
     tower1->setParent(this);
@@ -139,20 +144,14 @@ GameWindow::GameWindow(QWidget *parent) :
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMap()));
     timer->start(10);
-    //this->uiSetup();
+
     // 设置500ms后游戏启动
     QTimer::singleShot(500, this, SLOT(gameStart()));
 
 
 }
 
-//void GameWindow::uiSetup()
-//{
-//    TowerIcon *card0 = new NormalTowerIcon(this);
-//    card0->setGeometry(180, 10 , 100, 60);
-//    Icons.append(card0);
-//    card0->show();
-//}
+
 void GameWindow::paintEvent(QPaintEvent *){
     QPainter painter(this);
     QPixmap pixmap(":/images/01A.png");
@@ -211,6 +210,12 @@ void GameWindow::paintEvent(QPaintEvent *){
     drawPlayerGold(&painter);
     drawWave(&painter);
     drawHP(&painter);
+
+}
+
+GameWindow::~GameWindow()
+{
+    delete this->audioPlayer();
 
 }
 
@@ -445,7 +450,7 @@ void GameWindow::doGameOver()
         // 此处应该切换场景到结束场景
         // 暂时以打印替代,见paintEvent处理
 
-        //m_audioPlayer->stopBGM();
+        m_audioPlayer->stopBGM();
         m_audioPlayer->playLoseSound();
     }
 }
@@ -484,8 +489,8 @@ void GameWindow::removedEnemy(Enemy *enemy)
             m_gameWin = true;
             // 游戏胜利转到游戏胜利场景
             // 这里暂时以打印处理
-//            m_audioPlayer->stopBGM();
-            //m_audioPlayer->playWinSound();
+            m_audioPlayer->stopBGM();
+            m_audioPlayer->playWinSound();
         }
     }
 }
@@ -588,3 +593,7 @@ bool GameWindow::canUpgradeTower() const
     return false;
 }
 
+void GameWindow::leave()
+{
+    emit chooseBack();
+}

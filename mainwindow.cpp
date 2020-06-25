@@ -21,18 +21,14 @@ MainWindow::MainWindow(QWidget *parent)
     this->setWindowIcon(QIcon(":/images/windowicon3.png"));
     ui->setupUi(this);
 
-    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/bgmusic2.mp3");
+    QUrl backgroundMusicUrl = QUrl::fromLocalFile(s_curDir + "/mainmusic.mp3");
     m_audioPlayer = new AudioPlayer(backgroundMusicUrl,this);
     m_audioPlayer->startBGM();
 
     MyButton * bin = new MyButton(":/images/Button.png");
     bin->setParent(this);
     bin->move(600,800);
-    //connect(bin,&MyButton::clicked,this,&QMainWindow::close);
-//    QPushButton * bin = new QPushButton(this);
-//    bin->setFixedSize(100,50);
-//    bin->move(40,40);
-//    connect(bin,&QPushButton::clicked,this,&QMainWindow::close);
+
 
     ChooseLevelWindow * scene = new ChooseLevelWindow;
     connect(bin,&QPushButton::clicked,this,[=](){

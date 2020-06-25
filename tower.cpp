@@ -291,9 +291,9 @@ Tower4::~Tower4()
 }
 void Tower4::shootWeapon()
 {
-    Tower3Bullet *bullet3 = new Tower3Bullet(m_pos, m_chooseEnemy->pos(), m_damage, m_chooseEnemy, m_game);
-    bullet3->move();
-    m_game->addBullet(bullet3);
+    Tower4Bullet *bullet4 = new Tower4Bullet(m_pos, m_chooseEnemy->pos(), m_damage, m_chooseEnemy, m_game);
+    bullet4->move();
+    m_game->addBullet(bullet4);
 }
 int Tower4::gettowertype()
 {

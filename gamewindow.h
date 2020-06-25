@@ -40,7 +40,8 @@ class GameWindow : public QMainWindow
 public:
     QList<TowerIcon*> Icons;
     explicit GameWindow(QWidget *parent = nullptr);
-
+    ~GameWindow();
+    QPushButton* exit = new QPushButton(this);
 
     void getHpDamage(int damage = 1);
     void removedEnemy(Enemy *enemy);
@@ -49,21 +50,13 @@ public:
     void awardGold(int gold);
     AudioPlayer* audioPlayer() const;
     QList<Enemy *> enemyList() const;
-    void uiSetup();
+
 
     void updateScene();
-    int                     towertype;
-    int                     del;
-    int                     up;
+    int                     towertype;//不同性质的的塔
+    int                     del;//是否拆除塔
+    int                     up;//是否升级塔
 
-//    QLabel* NormalTowerPic = new QLabel(this);
-//    //QMovie* normalTowerPic = new QMovie(":/picture/frame.png");
-//    QLabel* FireTowerPic = new QLabel(this);
-//    //QMovie* fireTowerPic = new QMovie(":/picture/frame.png");
-//    QLabel* IceTowerPic = new QLabel(this);
-//    //QMovie* iceTowerPic = new QMovie(":/picture/frame.png");
-//    QLabel* LaserTowerPic = new QLabel(this);
-//    //QMovie* laserTowerPic = new QMovie(":/picture/frame.png");
 
 protected:
     void paintEvent(QPaintEvent *);
@@ -72,9 +65,10 @@ protected:
 private slots:
     void updateMap();
     void gameStart();
+    void leave();
 
 private:
-    //通过转换让其建立不同性质的塔，默认为1
+
     bool canUpgradeTower() const;
     void loadTowerPositions();
     void addWayPoints();
@@ -106,6 +100,7 @@ private:
 
 signals:
     void chooseBack();
+
 
 
 };
