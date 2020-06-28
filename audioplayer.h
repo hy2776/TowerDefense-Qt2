@@ -14,16 +14,16 @@ enum SoundType
 {
     TowerPlaceSound,		// 放塔时的声音
     LifeLoseSound,			// 基地费血时的声音
-    NormalBulletSound,    //敌人被子弹打中的声音
-    IceBulletSound,
-    FireBulletSound,
-    LaserBulletSound,
-    normalEnemyDestorySound,// 敌人下线声音
-    iceEnemyDestorySound,
-    fireEnemyDestorySound,
-    fastEnemyDestorySound,
+    BulletSound1,           //敌人被子弹打中的声音
+    BulletSound2,
+    BulletSound3,
+    BulletSound4,
+    EnemyDestorySound1,      // 敌人下线声音
+    EnemyDestorySound2,
+    EnemyDestorySound3,
+    EnemyDestorySound4,
     bossEnemyDestorySound,
-    luoboCrySound,
+    luoboCrySound,           //萝卜遭受伤害的声音
 };
 
 class AudioPlayer : public QObject

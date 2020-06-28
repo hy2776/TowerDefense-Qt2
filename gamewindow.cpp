@@ -7,8 +7,6 @@
 #include "bullet.h"
 #include "plistreader.h"
 #include "audioplayer.h"
-#include "towericon.h"
-
 #include <QPainter>
 #include <QTimer>
 #include <QPushButton>
@@ -19,10 +17,10 @@
 #include <QMediaPlayer>
 
 
-static const int TowerCost1 = 100;
+static const int TowerCost1 = 150;
 static const int TowerCost2 = 220;
-static const int TowerCost3 = 160;
-static const int TowerCost4 = 220;//设定每安置一个炮塔花费的金币
+static const int TowerCost3 = 260;
+static const int TowerCost4 = 300;//设定每安置一个炮塔花费的金币
 static const int UpdateTowerCost = 200;//设定升级炮塔花费200金币
 static const int RemoveTowerGet = 100;//设定拆除炮塔得到100金币
 
@@ -32,7 +30,7 @@ GameWindow::GameWindow(QWidget *parent) :
 
     , m_waves(0)
     , m_playerHp(15)
-    , m_playrGold(10000)
+    , m_playrGold(600)
     , m_gameEnded(false)
     , m_gameWin(false)
 {
@@ -146,8 +144,8 @@ GameWindow::GameWindow(QWidget *parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(updateMap()));
     timer->start(10);
 
-    // 设置500ms后游戏启动
-    QTimer::singleShot(500, this, SLOT(gameStart()));
+    // 设置10000ms后游戏启动
+    QTimer::singleShot(10000, this, SLOT(gameStart()));
 
 
 }
@@ -207,7 +205,7 @@ void GameWindow::paintEvent(QPaintEvent *){
     foreach (const Bullet *bullet, m_bulletList)
         bullet->draw(&painter);
 
-    //drawHP(&painter);
+
     drawPlayerGold(&painter);
     drawWave(&painter);
     drawHP(&painter);
@@ -288,10 +286,10 @@ void GameWindow::loadTowerPositions()
         QPoint(1223, 675),
         QPoint(1223, 790),
         QPoint(1108, 790),
-        QPoint(538, 215),
+        QPoint(538, 190),
         QPoint(768, 895),
-        QPoint(883, 1050),
-        QPoint(1108, 330),//待调整位置
+        QPoint(883, 1020),
+        QPoint(1108, 330),
         QPoint(993, 790)
     };
     int len	= sizeof(pos) / sizeof(pos[0]);
@@ -359,7 +357,7 @@ void GameWindow::mousePressEvent(QMouseEvent *event)
             update();
             break;
         }
-        //删除的鼠标事件，难点：如何删除塔
+        //删除的鼠标事件
         if( it->containPoint(pressPos) && it->hasTower() && towertype==0 && up==0 && del==1)
         {
             m_towersList.removeOne(it->m_tower);
@@ -448,6 +446,7 @@ void GameWindow::doGameOver()
     if (!m_gameEnded)
     {
         m_gameEnded = true;
+        m_gameWin = false;
         // 此处应该切换场景到结束场景
         // 暂时以打印替代,见paintEvent处理
 
@@ -491,6 +490,7 @@ void GameWindow::removedEnemy(Enemy *enemy)
             // 游戏胜利转到游戏胜利场景
             // 这里暂时以打印处理
             m_audioPlayer->stopBGM();
+
             m_audioPlayer->playWinSound();
         }
     }
@@ -554,16 +554,16 @@ bool GameWindow::loadWave()
         int j=i%5;
         switch(j){
         case 0:
-            enemy = new normalEnemy(startWayPoint, this);
+            enemy = new Enemy1(startWayPoint, this);
             break;
         case 1:
-            enemy=new iceEnemy(startWayPoint, this);
+            enemy=new Enemy2(startWayPoint, this);
             break;
         case 2:
-            enemy=new fireEnemy(startWayPoint, this);
+            enemy=new Enemy3(startWayPoint, this);
             break;
         case 3:
-            enemy=new fastEnemy(startWayPoint, this);
+            enemy=new Enemy4(startWayPoint, this);
             break;
         case 4:
             enemy=new bossEnemy(startWayPoint, this);
@@ -594,7 +594,4 @@ bool GameWindow::canUpgradeTower() const
     return false;
 }
 
-void GameWindow::leave()
-{
-    emit chooseBack();
-}
+

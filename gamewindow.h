@@ -19,16 +19,16 @@
 #include <QXmlStreamReader>
 #include <QtDebug>
 #include <QMainWindow>
-#include "myobject.h"
+
 #include "tower.h"
 #include "towerposition.h"
 #include "audioplayer.h"
-#include "towericon.h"
+
 class WayPoint;
 class Enemy;
 class Bullet;
 class AudioPlayer;
-class TowerIcon;
+
 
 
 
@@ -38,7 +38,7 @@ class GameWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    QList<TowerIcon*> Icons;
+
     explicit GameWindow(QWidget *parent = nullptr);
     ~GameWindow();
     QPushButton* exit = new QPushButton(this);
@@ -65,10 +65,10 @@ protected:
 private slots:
     void updateMap();
     void gameStart();
-    void leave();
 
-private:
 
+
+public:
     bool canUpgradeTower() const;
     void loadTowerPositions();
     void addWayPoints();
@@ -81,7 +81,7 @@ private:
     void preLoadWavesInfo();
 
 
-private:
+
 
 
     int						m_waves;

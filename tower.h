@@ -50,7 +50,7 @@ private slots://槽函数，对不同类的塔有不同的武器子弹，所以�
 
     static const QSize ms_fixedSize;
 };
-class Tower1 : public Tower
+class Tower1 : public Tower//汽油瓶
 {
     Q_OBJECT
 public:
@@ -76,7 +76,7 @@ protected slots:
 
 
 
-class Tower2 : public Tower
+class Tower2 : public Tower//射箭
 {
     Q_OBJECT
 public:
@@ -102,7 +102,7 @@ protected slots:
 
 };
 
-class Tower3 : public Tower
+class Tower3 : public Tower//减速风车
 {
     Q_OBJECT
 public:
@@ -128,7 +128,7 @@ protected slots:
 
 };
 
-class Tower4 : public Tower
+class Tower4 : public Tower//火箭
 {
     Q_OBJECT
 public:

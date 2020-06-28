@@ -57,28 +57,28 @@ public slots:
     void doActivate();
 };
 
-class normalEnemy:public Enemy{
+class Enemy1:public Enemy{
     Q_OBJECT
 public:
-    normalEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy1.png"));
+    Enemy1(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy1.png"));
 };
 
-class iceEnemy:public Enemy{
+class Enemy2:public Enemy{
     Q_OBJECT
 public:
-    iceEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy2.png"));
+    Enemy2(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy2.png"));
 };
 
-class fireEnemy:public Enemy{
+class Enemy3:public Enemy{
     Q_OBJECT
 public:
-    fireEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy3.png"));
+    Enemy3(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy3.png"));
 };
 
-class fastEnemy:public Enemy{
+class Enemy4:public Enemy{
     Q_OBJECT
 public:
-    fastEnemy(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy4.png"));
+    Enemy4(WayPoint *startWayPoint, GameWindow *game, const QPixmap &sprite = QPixmap(":/images/enemy4.png"));
 };
 
 class bossEnemy:public Enemy{

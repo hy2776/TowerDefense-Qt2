@@ -25,6 +25,7 @@ ChooseLevelWindow::ChooseLevelWindow(QWidget *parent) : QMainWindow(parent)
     connect(back_bin,&MyButton::clicked,this,[=](){
         back_bin->zoomup();
         back_bin->zoomdown();
+        m_audioPlayer->stopBGM();
         QTimer::singleShot(200,this,[=](){
          emit chooseBack();
         });

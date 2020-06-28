@@ -42,7 +42,6 @@ HEADERS += \
     mybutton.h \
     plistreader.h \
     tower.h \
-    towericon.h \
     towerposition.h \
     utility.h \
     waypoint.h

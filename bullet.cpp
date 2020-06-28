@@ -28,7 +28,7 @@ void Bullet::draw(QPainter *painter) const{
 void Bullet::move(){
     //300毫秒内击中敌人
     static const int duration = 300;
-    //不同子弹移动速度可以不同，后期可以将Bullet中的move也设为虚函数，在具体子类中实现（LaserBullet移动速度最快.etc）
+    //不同子弹移动速度可以不同
     QPropertyAnimation *animation = new QPropertyAnimation(this, "m_currentPos");
     animation->setDuration(duration);
     animation->setStartValue(m_startPos);

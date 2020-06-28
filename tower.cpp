@@ -125,7 +125,7 @@ void Tower::lostSightOfEnemy()
 Tower1::Tower1(QPoint pos, GameWindow *game, const QPixmap &sprite)
     : Tower(pos, game, sprite)
 {
-    m_attackRange=150;
+    m_attackRange=200;
     m_damage=10;
 }
 Tower1::~Tower1()
@@ -230,7 +230,7 @@ Tower3::Tower3(QPoint pos, GameWindow *game, const QPixmap &sprite)
     : Tower(pos, game, sprite)
 {
     m_attackRange=200;
-    m_damage=15;
+    m_damage=10;
 }
 Tower3::~Tower3()
 {
@@ -258,7 +258,7 @@ Tower3_2::Tower3_2(QPoint pos, GameWindow *game, const QPixmap &sprite)
     : Tower3(pos, game, sprite)
 {
     m_attackRange=300;
-    m_damage=20;
+    m_damage=15;
 }
 Tower3_2::~Tower3_2()
 {
@@ -282,8 +282,8 @@ int Tower3_2::getlevel()
 Tower4::Tower4(QPoint pos, GameWindow *game, const QPixmap &sprite)
     : Tower(pos, game, sprite)
 {
-    m_attackRange=200;
-    m_damage=15;
+    m_attackRange=180;
+    m_damage=20;
 }
 Tower4::~Tower4()
 {
@@ -310,8 +310,8 @@ int Tower4::getlevel()
 Tower4_2::Tower4_2(QPoint pos, GameWindow *game, const QPixmap &sprite)
     : Tower4(pos, game, sprite)
 {
-    m_attackRange=300;
-    m_damage=20;
+    m_attackRange=250;
+    m_damage=25;
 }
 Tower4_2::~Tower4_2()
 {
