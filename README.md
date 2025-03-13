@@ -1,31 +1,44 @@
-# TowerDefense-Qt
-2020年《程序设计II》大作业
-——塔防类游戏
-一、目标
-通过制作塔防类游戏，深入理解面向对象开发中的诸多技术原理和思想，形成对C++开发的完整性的认识，并培养工程管理、产品研发的能力。
-二、塔防游戏介绍
-指一类通过在地图上构造炮塔（或类似建筑物），以阻止游戏中敌人抵达堡垒的即时战略游戏。
-一般来说，敌人并不会主动攻击炮塔当敌人被消灭时，玩家可以获得奖金或者积分，用于购买炮塔或者升级炮塔敌人以一波波进攻，大部分塔防会在一波后暂停以让玩家以积分升级或者增加炮塔。
-约有50波或者更多玩家一般有若干生命，如果炮塔不能消灭敌人，敌人到达指定地方后，就会减少生命。
-随着玩家提升炮塔能力，敌人的数量和能力也会提升。一般而言，怪物的提升速度比炮塔快。
-此类游戏的目标是生成若干时间或者尽可能生存下去。 
-三、功能要求
-完成一款完整的塔防类游戏，实现塔防游戏的基本功能，和优化功能。 
-（一）、基本功能
-1.	多类型敌人和多类型的攻击手段。
-2.	不同类型的防御塔及其不同属性。
-3.	游戏难度随游戏进度不断增加。
-4.	背景音效和事件音效(可选）。
-（二）、升级功能
-1.	防御塔的升级功能。 
-2.	攻击方敌人的智能化（弱AI） 
-3.	防御方分值（资源）累积，用于提供防御塔的升级。 
-4.	拆除防御塔。 
-5.	游戏场景切换，多关卡功能。
-四、OO特性体现
-游戏的设计中，要体现OO的诸多特性。
-1.	封装。例如：类、构造函数重载等
-2.	继承。例如： 对象类-敌人类-攻击型敌人类； 对象类-防守塔类-慢炮型防守塔类。
-3.	多态。例如：对象的抽象类-继承的不同功能的界面元素类。
-4.	组合。例如：防御塔类组合了武器类。
-5.	常类型。例如：武器类的常成员函数、常对象等。
+# TowerDefense-Qt  
+**2020 "Programming II" Final Project**  
+— Tower Defense Game  
+
+## 1. Objective  
+The goal of this project is to develop a tower defense game, allowing students to gain an in-depth understanding of various object-oriented (OO) development principles and concepts. Through this process, students will build a comprehensive knowledge of C++ development while also cultivating skills in project management and product development.  
+
+## 2. Introduction to Tower Defense Games  
+Tower defense games are a subgenre of real-time strategy games in which players construct defensive towers (or similar structures) on a map to prevent enemies from reaching a designated stronghold.  
+
+Typically, enemies do not actively attack the towers. When an enemy is eliminated, the player earns points or rewards, which can be used to purchase or upgrade towers. Enemies attack in waves, and most tower defense games provide a pause between waves, allowing players to upgrade or add towers using accumulated points.  
+
+A typical game consists of around **50 or more waves**. Players usually have a **limited number of lives**; if an enemy reaches the designated endpoint, the player's lives will decrease. As the player upgrades their towers, the number and strength of enemies also increase. Generally, **enemy progression outpaces the rate of tower upgrades**.  
+
+The primary goal of such games is to **survive for a specified duration or as long as possible**.  
+
+## 3. Functional Requirements  
+The project requires the development of a **complete tower defense game**, implementing both **fundamental** and **enhanced** gameplay features.  
+
+### (1) Basic Features  
+- Multiple enemy types and diverse attack methods.  
+- Various types of defensive towers, each with distinct attributes.  
+- Increasing game difficulty as the game progresses.  
+- Background music and event sound effects (optional).  
+
+### (2) Enhanced Features  
+- Tower upgrade functionality.  
+- Basic AI for enemy attacks.  
+- Accumulation of player resources (points) to enable tower upgrades.  
+- Ability to dismantle defensive towers.  
+- Multiple game scenes and level-switching mechanics.  
+
+## 4. Object-Oriented (OO) Design Principles  
+The game design should effectively demonstrate key OO principles:  
+
+1. **Encapsulation** – Use of classes, overloaded constructors, etc.  
+2. **Inheritance** – For example, a hierarchical structure such as:  
+   - `Object → Enemy → Attacking Enemy`  
+   - `Object → Defense Tower → Slow-Firing Defense Tower`  
+3. **Polymorphism** – Abstract base classes with derived classes implementing various UI elements.  
+4. **Composition** – For instance, the **Defense Tower** class containing a **Weapon** class.  
+5. **Const-Correctness** – Use of `const` member functions and objects, such as in the **Weapon** class.  
+
+This project aims to integrate these OO features while delivering a **functional and engaging** tower defense game.
